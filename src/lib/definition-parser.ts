@@ -396,7 +396,7 @@ function calculateDependencies(
     return { dependencies, pathMappings };
 }
 
-const nodeBuiltins: ReadonlySet<string> = new Set([
+export const nodeBuiltins: ReadonlySet<string> = new Set([
     "assert", "async_hooks", "buffer", "child_process", "cluster", "console", "constants", "crypto",
     "dgram", "dns", "domain", "events", "fs", "http", "http2", "https", "module", "net", "os",
     "path", "perf_hooks", "process", "punycode", "querystring", "readline", "repl", "stream",

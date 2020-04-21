@@ -5,7 +5,7 @@ import * as ts from "typescript";
 import { FS } from "../get-definitely-typed";
 import { hasWindowsSlashes, joinPaths, normalizeSlashes, sort } from "../util/util";
 
-import { readFileAndThrowOnBOM } from "./definition-parser";
+import { nodeBuiltins, readFileAndThrowOnBOM } from "./definition-parser";
 
 export function getModuleInfo(packageName: string, all: Map<string, ts.SourceFile>): ModuleInfo {
 
@@ -378,7 +378,11 @@ export function getTestDependencies(
             if (!imported.startsWith(".")) {
                 const dep = rootName(imported, typeFiles, packageName);
                 if (!dependencies.has(dep) && dep !== packageName) {
-                    testDependencies.add(dep);
+                    if (!nodeBuiltins.has(dep)) {
+                        testDependencies.add(dep);
+                    } else if (!dependencies.has("node")) {
+                        testDependencies.add("node");
+                    }
                 }
             }
         }
